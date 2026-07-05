@@ -4,11 +4,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useReportStatusPolling } from './useReportStatusPolling';
 import * as reportsService from '../services/reportsService';
 
-function wrapper({ children }: { children: React.ReactNode }) {
-  const client = new QueryClient();
-  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
-}
-
 describe('useReportStatusPolling', () => {
   it('de-duplicates two simultaneously mounted consumers of the same reportId', async () => {
     const spy = vi.spyOn(reportsService, 'getReportStatus').mockResolvedValue({

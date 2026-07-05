@@ -47,7 +47,7 @@ describe('apiClient', () => {
   it('throws ApiError with status 0 / NETWORK_ERROR on a rejected fetch', async () => {
     vi.mocked(fetch).mockRejectedValue(new TypeError('Failed to fetch'));
 
-    const error = await apiFetch('/products/current').catch((e) => e);
+    const error = (await apiFetch('/products/current').catch((e) => e)) as ApiError;
     expect(error).toBeInstanceOf(ApiError);
     expect(error.status).toBe(0);
     expect(error.code).toBe('NETWORK_ERROR');

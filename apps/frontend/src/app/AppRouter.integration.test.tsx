@@ -3,6 +3,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppRouter } from './AppRouter';
+import { CurrentProductProvider } from '../contexts/CurrentProductContext';
+import { RepositoryListProvider } from '../contexts/RepositoryListContext';
 import * as useConnectorStatusModule from '../hooks/useConnectorStatus';
 
 vi.mock('aws-amplify/auth', () => ({
@@ -18,6 +20,19 @@ vi.mock('../services/productsService', () => ({
 
 vi.mock('../services/repositoriesService', () => ({
   listRepositories: vi.fn().mockResolvedValue([]),
+  getRepositoryStats: vi.fn().mockResolvedValue({ metrics: [], hasFacts: false }),
+}));
+
+vi.mock('../services/syncService', () => ({
+  getSyncRuns: vi.fn().mockResolvedValue([]),
+}));
+
+vi.mock('../services/reportsService', () => ({
+  listReports: vi.fn().mockResolvedValue([]),
+}));
+
+vi.mock('../services/connectorService', () => ({
+  testConnector: vi.fn().mockRejectedValue(new Error('not configured')),
 }));
 
 vi.mock('../features/auth/LoginPage', () => ({
@@ -27,12 +42,16 @@ vi.mock('../features/auth/LoginPage', () => ({
 import { getCurrentUser } from 'aws-amplify/auth';
 
 function renderApp(initialPath: string) {
-  const client = new QueryClient();
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
     <QueryClientProvider client={client}>
-      <MemoryRouter initialEntries={[initialPath]}>
-        <AppRouter />
-      </MemoryRouter>
+      <CurrentProductProvider>
+        <RepositoryListProvider>
+          <MemoryRouter initialEntries={[initialPath]}>
+            <AppRouter />
+          </MemoryRouter>
+        </RepositoryListProvider>
+      </CurrentProductProvider>
     </QueryClientProvider>,
   );
 }
@@ -52,7 +71,8 @@ describe('AppRouter guard chain', () => {
       error: null,
     });
     renderApp('/repositories');
-    await waitFor(() => expect(screen.getByText('Connector')).toBeInTheDocument());
+    // The Connector page's "Data Sources" heading proves the redirect landed.
+    await waitFor(() => expect(screen.getByText('Data Sources')).toBeInTheDocument());
   });
 
   it('renders the requested route when authenticated and connected', async () => {
@@ -63,6 +83,8 @@ describe('AppRouter guard chain', () => {
       error: null,
     });
     renderApp('/repositories');
-    await waitFor(() => expect(screen.getByText('Repository Landing')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByRole('heading', { name: 'Repositories' })).toBeInTheDocument(),
+    );
   });
 });

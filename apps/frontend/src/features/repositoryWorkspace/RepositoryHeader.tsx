@@ -72,7 +72,13 @@ export function RepositoryHeader({ repoId }: RepositoryHeaderProps) {
 
   const repository = repositoryQuery.data;
   const effectiveStatus = pollStatus ?? repository?.status ?? 'onboarding';
-  const isInProgress = !TERMINAL_STATUSES.includes(effectiveStatus);
+  // A run is only "in progress" when the poll reports a live, non-terminal
+  // run; the repository-level 'syncing' status covers the no-run-yet case.
+  // Repository statuses like 'synced'/'onboarding' must not lock the button.
+  const isInProgress =
+    pollStatus !== undefined
+      ? !TERMINAL_STATUSES.includes(pollStatus)
+      : repository?.status === 'syncing';
   const isSyncDisabled = syncMutation.isPending || isInProgress;
 
   const lastSyncedText = isInProgress
