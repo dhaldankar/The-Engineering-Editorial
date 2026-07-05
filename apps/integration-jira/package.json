@@ -1,5 +1,20 @@
 {
   "name": "integration-jira",
-  "version": "0.0.0",
-  "private": true
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@engineering-editorial/connectors": "workspace:*",
+    "@engineering-editorial/db-client": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.130",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  }
 }

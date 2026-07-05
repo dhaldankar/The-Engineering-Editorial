@@ -96,3 +96,17 @@ export const clusterAssignments = coreSchema.table("cluster_assignments", {
   clusterId: text("cluster_id").notNull().references(() => codeClusters.id),
   fileId: text("file_id").notNull().references(() => prFiles.id),
 });
+
+export const contributorOauthTokens = coreSchema.table("contributor_oauth_tokens", {
+  id: text("id").primaryKey(),
+  contributorId: text("contributor_id").notNull().references(() => contributors.id),
+  provider: text("provider").notNull(), // e.g., 'atlassian'
+  providerAccountId: text("provider_account_id"), // Atlassian account ID
+  accessTokenCiphertext: text("access_token_ciphertext").notNull(),
+  refreshTokenCiphertext: text("refresh_token_ciphertext"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  contributorProviderUnq: uniqueIndex("idx_contributor_provider_unq").on(table.contributorId, table.provider),
+}));
