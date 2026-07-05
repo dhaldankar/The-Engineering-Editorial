@@ -1,0 +1,89 @@
+window "Project Beta — Flow":
+  header:
+    row justify=between:
+      row:
+        icon name="tech" accent=research
+        text "The Engineering Editorial" bold
+      row:
+        input placeholder="Search projects..." type=search
+        button "" icon="warning"
+        button "" icon="gear"
+        avatar "U"
+    row justify=between:
+      col:
+        text "← All Projects" muted size=small
+        text "Project Beta" bold size=large
+      row:
+        segmented:
+          segment "Pulse"
+          segment "Flow" selected
+          segment "Quality"
+        status "Synced" kind=success
+        text "Last updated 4m ago" muted size=small
+        button "Sync" primary icon="check"
+
+  row:
+    col 240:
+      panel:
+        text "Engineering Org" bold
+        text "Precision Curator" muted size=small
+        divider
+        text "All Projects" muted
+        text "Connectors" muted
+        divider
+        text "Projects" muted size=small
+        text "Project Alpha" muted
+        text "Project Beta" bold
+        text "Project Gamma" muted
+        button "New Project" primary icon="plus"
+        divider
+        text "Settings" muted
+        text "Support" muted
+
+    col:
+      row:
+        slot "Avg Dev Time":
+          text "1.2d" bold size=large
+          text "▼ 12%" accent=success size=small
+        slot "Review Time":
+          text "0.8d" bold size=large
+          text "Stable" muted size=small
+        slot "QA Time":
+          text "1.4d" bold size=large accent=danger
+          text "▲ 4%" accent=danger size=small
+        slot "Blocked %":
+          text "5.2%" bold size=large
+          text "▼ 0.4%" accent=success size=small
+
+      section "Phase Breakdown" badge="Last 30 days":
+        progress value=45 max=100 label="Dev"
+        progress value=25 max=100 label="Review"
+        progress value=20 max=100 label="QA"
+        progress value=10 max=100 label="Blocked" accent=danger
+
+      row:
+        col:
+          section "Recent Transitions":
+            list:
+              item "Alex Rivero — PR-429 · Dev → Review · 2m ago"
+              item "Sarah Chen — FIX-902 · Review → QA · 18m ago"
+              item "Marcus Thorne — FEAT-112 · QA → Blocked · 1h ago" chevron
+              item "Elena Rodriguez — DEP-88 · Dev → Review · 4h ago"
+
+        col 300:
+          panel:
+            text "Editorial Insight" bold accent=research
+            text "Project Beta's flow indicates a 15% reduction in Review-to-QA friction compared to the previous sprint cycle." muted size=small
+            chip "Efficiency Gain" accent=research
+
+          section "Potential Bottlenecks":
+            row:
+              icon name="warning" accent=danger
+              col:
+                text "QA Queue Depth" bold size=small
+                text "4 items pending > 48h" muted size=small
+            row:
+              icon name="research"
+              col:
+                text "Review Overload" bold size=small
+                text "2 devs handling 80% reviews" muted size=small

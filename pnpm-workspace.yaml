@@ -1,0 +1,6 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'infra'
+allowBuilds:
+  esbuild: set this to true or false

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project Alpha - Pulse Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed-variant": "#4b546d",
+                        "primary-fixed-dim": "#d2d0ff",
+                        "error-dim": "#4f0116",
+                        "surface": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#5c5b5f",
+                        "tertiary-container": "#ced6f5",
+                        "on-tertiary-container": "#424a63",
+                        "error-container": "#ff8b9a",
+                        "inverse-primary": "#8582ff",
+                        "secondary": "#605e62",
+                        "primary-dim": "#4034d7",
+                        "tertiary": "#565f78",
+                        "on-primary-fixed-variant": "#4a40e0",
+                        "on-primary": "#faf6ff",
+                        "surface-dim": "#c4dcff",
+                        "tertiary-fixed-dim": "#c0c9e6",
+                        "on-surface-variant": "#26619d",
+                        "on-background": "#00345e",
+                        "secondary-dim": "#545256",
+                        "on-secondary-fixed": "#403f43",
+                        "surface-variant": "#d2e4ff",
+                        "secondary-fixed": "#e5e1e6",
+                        "primary": "#4d44e3",
+                        "on-secondary-container": "#525155",
+                        "tertiary-fixed": "#ced6f5",
+                        "surface-tint": "#4d44e3",
+                        "on-tertiary-fixed": "#2f384f",
+                        "primary-container": "#e2dfff",
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed": "#e2dfff",
+                        "on-error-container": "#782232",
+                        "secondary-container": "#e5e1e6",
+                        "on-secondary": "#fbf8fc",
+                        "inverse-surface": "#000f21",
+                        "outline": "#477dbb",
+                        "on-tertiary": "#f9f8ff",
+                        "background": "#f8f9ff",
+                        "surface-container-highest": "#d2e4ff",
+                        "on-primary-container": "#3f33d6",
+                        "inverse-on-surface": "#8e9eb7",
+                        "secondary-fixed-dim": "#d6d3d8",
+                        "on-primary-fixed": "#2a13c5",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary-dim": "#4a536b",
+                        "outline-variant": "#81b5f6",
+                        "on-surface": "#00345e",
+                        "on-error": "#fff7f7",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#9e3f4e",
+                        "surface-container": "#e5eeff"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 h-full w-64 z-40 bg-[#eff4ff] flex flex-col py-6 px-4 gap-y-2">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 bg-primary-container rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="hub">hub</span>
+</div>
+<div>
+<h1 class="text-lg font-semibold text-[#00345e]">Engineering Org</h1>
+<p class="text-xs text-on-surface-variant/70">Precision Curator</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1 font-medium text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+                    All Projects
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1 font-medium text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+                    Connectors
+                </a>
+<div class="h-4"></div>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1 font-medium text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="circle">circle</span>
+                    Project Alpha
+                </a>
+<!-- Active Item for Project Beta as the current context -->
+<a class="flex items-center gap-3 px-3 py-2 bg-white text-indigo-600 rounded-lg shadow-sm font-medium text-sm scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="circle" style="font-variation-settings: 'FILL' 1;">circle</span>
+                    Project Beta
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-white/50 transition-transform duration-200 hover:translate-x-1 font-medium text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="circle">circle</span>
+                    Project Gamma
+                </a>
+</nav>
+<div class="mt-auto pt-6 space-y-1">
+<button class="w-full mb-4 py-2 bg-primary text-on-primary rounded-xl font-semibold shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    Add Project
+                </button>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-white/50 font-medium text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:bg-white/50 font-medium text-sm rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+                    Support
+                </a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 ml-64 p-8">
+<!-- Panel Topbar -->
+<header class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="p-2 bg-surface-container-high rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="terminal">terminal</span>
+</div>
+<h2 class="text-2xl font-bold tracking-tight text-on-surface">Project Beta</h2>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest text-on-surface-variant font-medium rounded-xl shadow-sm border border-outline-variant/15 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="sync">sync</span>
+<span>Syncing...</span>
+<div class="w-12 h-1 bg-surface-container-high rounded-full overflow-hidden ml-1">
+<div class="w-2/3 h-full bg-primary"></div>
+</div>
+</button>
+<button class="p-2.5 bg-surface-container-lowest text-on-surface-variant rounded-xl border border-outline-variant/15 hover:bg-surface-container-low">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+</header>
+<!-- Tab Bar -->
+<div class="flex items-center gap-8 mb-10 border-b border-transparent">
+<a class="pb-3 text-sm font-semibold text-primary border-b-2 border-primary flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="pulse">pulse_alert</span>
+                    Pulse
+                </a>
+<a class="pb-3 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="flowsheet">flowsheet</span>
+                    Flow
+                </a>
+<a class="pb-3 text-sm font-medium text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified">verified</span>
+                    Quality
+                </a>
+</div>
+<!-- Pulse Tab Content -->
+<div class="space-y-10">
+<!-- Metric Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-full border border-outline-variant/10 shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/60">Cycle Time</p>
+<span class="flex items-center text-error font-semibold text-xs">
+<span class="material-symbols-outlined text-xs" data-icon="arrow_upward">arrow_upward</span>
+                                12%
+                            </span>
+</div>
+<h3 class="text-3xl font-bold text-on-surface">3.4d</h3>
+<p class="text-xs text-on-surface-variant mt-1 italic">Average per feature</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-full border border-outline-variant/10 shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/60">QA Bounce</p>
+<span class="flex items-center text-indigo-600 font-semibold text-xs">
+<span class="material-symbols-outlined text-xs" data-icon="arrow_downward">arrow_downward</span>
+                                4%
+                            </span>
+</div>
+<h3 class="text-3xl font-bold text-on-surface">18.2%</h3>
+<p class="text-xs text-on-surface-variant mt-1 italic">Rejection frequency</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-full border border-outline-variant/10 shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/60">PRs Merged</p>
+<span class="flex items-center text-indigo-600 font-semibold text-xs">
+<span class="material-symbols-outlined text-xs" data-icon="arrow_upward">arrow_upward</span>
+                                24%
+                            </span>
+</div>
+<h3 class="text-3xl font-bold text-on-surface">142</h3>
+<p class="text-xs text-on-surface-variant mt-1 italic">Last 30 days</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-full border border-outline-variant/10 shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<p class="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant/60">Rework Rate</p>
+<span class="flex items-center text-indigo-600 font-semibold text-xs">
+<span class="material-symbols-outlined text-xs" data-icon="arrow_downward">arrow_downward</span>
+                                2%
+                            </span>
+</div>
+<h3 class="text-3xl font-bold text-on-surface">8.4%</h3>
+<p class="text-xs text-on-surface-variant mt-1 italic">Code churn metric</p>
+</div>
+</div>
+<!-- Bento Grid Layout for Sections -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Signal Feed Section -->
+<section class="lg:col-span-1 bg-surface-container-low rounded-full p-8">
+<div class="flex items-center justify-between mb-6">
+<h4 class="text-lg font-bold text-on-surface">Signal Feed</h4>
+<span class="text-[10px] font-bold uppercase text-primary px-2 py-1 bg-primary-container rounded-md">Live Updates</span>
+</div>
+<div class="space-y-6">
+<!-- Event Item -->
+<div class="flex gap-4 group">
+<div class="relative mt-1">
+<div class="w-2 h-2 rounded-full bg-error ring-4 ring-error/10"></div>
+<div class="absolute top-2 left-[3.5px] w-[1px] h-12 bg-outline-variant/30 group-last:hidden"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-baseline">
+<h5 class="text-sm font-semibold text-on-surface">Deployment Blocked</h5>
+<span class="text-[10px] text-on-surface-variant/50">2m ago</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Integration tests failed on 'feature/auth-provider-v2'. Blocking production pipeline.</p>
+</div>
+</div>
+<!-- Event Item -->
+<div class="flex gap-4 group">
+<div class="relative mt-1">
+<div class="w-2 h-2 rounded-full bg-indigo-500 ring-4 ring-indigo-500/10"></div>
+<div class="absolute top-2 left-[3.5px] w-[1px] h-12 bg-outline-variant/30 group-last:hidden"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-baseline">
+<h5 class="text-sm font-semibold text-on-surface">PR #402 Merged</h5>
+<span class="text-[10px] text-on-surface-variant/50">45m ago</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Stable merge into 'main' branch for core database migration scripts.</p>
+</div>
+</div>
+<!-- Event Item -->
+<div class="flex gap-4 group">
+<div class="relative mt-1">
+<div class="w-2 h-2 rounded-full bg-amber-500 ring-4 amber-500/10"></div>
+<div class="absolute top-2 left-[3.5px] w-[1px] h-12 bg-outline-variant/30 group-last:hidden"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-baseline">
+<h5 class="text-sm font-semibold text-on-surface">QA Spike Detected</h5>
+<span class="text-[10px] text-on-surface-variant/50">2h ago</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">Unusual number of bounces in Sprint 24. Investigating resource bottleneck.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Cycle Time Chart Section -->
+<section class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant/10 rounded-full p-8 shadow-sm">
+<div class="flex items-center justify-between mb-10">
+<div>
+<h4 class="text-lg font-bold text-on-surface">Cycle Time Trends</h4>
+<p class="text-xs text-on-surface-variant">Last 6 months performance analytics</p>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1.5 px-3 py-1 bg-surface rounded-md text-[10px] font-bold text-on-surface-variant">
+<div class="w-2 h-2 rounded-full bg-primary-dim"></div> Targeted
+                                </div>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-surface rounded-md text-[10px] font-bold text-on-surface-variant">
+<div class="w-2 h-2 rounded-full bg-primary-container"></div> Actual
+                                </div>
+</div>
+</div>
+<!-- Bar Chart Visualization -->
+<div class="relative h-64 w-full flex items-end justify-between px-4">
+<!-- Chart Grid Lines -->
+<div class="absolute inset-x-0 top-0 h-full flex flex-col justify-between pointer-events-none opacity-20">
+<div class="border-t border-on-surface-variant border-dashed w-full"></div>
+<div class="border-t border-on-surface-variant border-dashed w-full"></div>
+<div class="border-t border-on-surface-variant border-dashed w-full"></div>
+<div class="border-t border-on-surface-variant border-dashed w-full"></div>
+</div>
+<!-- Bar Group: Oct -->
+<div class="flex flex-col items-center gap-3 z-10 w-full group">
+<div class="flex items-end gap-1">
+<div class="w-4 bg-primary-container rounded-t-sm h-32 group-hover:bg-primary-container/80 transition-all"></div>
+<div class="w-4 bg-primary rounded-t-sm h-40 group-hover:scale-y-105 origin-bottom transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant/60 uppercase">Oct</span>
+</div>
+<!-- Bar Group: Nov -->
+<div class="flex flex-col items-center gap-3 z-10 w-full group">
+<div class="flex items-end gap-1">
+<div class="w-4 bg-primary-container rounded-t-sm h-28 group-hover:bg-primary-container/80 transition-all"></div>
+<div class="w-4 bg-primary rounded-t-sm h-36 group-hover:scale-y-105 origin-bottom transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant/60 uppercase">Nov</span>
+</div>
+<!-- Bar Group: Dec -->
+<div class="flex flex-col items-center gap-3 z-10 w-full group">
+<div class="flex items-end gap-1">
+<div class="w-4 bg-primary-container rounded-t-sm h-36 group-hover:bg-primary-container/80 transition-all"></div>
+<div class="w-4 bg-primary rounded-t-sm h-48 group-hover:scale-y-105 origin-bottom transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant/60 uppercase">Dec</span>
+</div>
+<!-- Bar Group: Jan -->
+<div class="flex flex-col items-center gap-3 z-10 w-full group">
+<div class="flex items-end gap-1">
+<div class="w-4 bg-primary-container rounded-t-sm h-24 group-hover:bg-primary-container/80 transition-all"></div>
+<div class="w-4 bg-primary rounded-t-sm h-32 group-hover:scale-y-105 origin-bottom transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant/60 uppercase">Jan</span>
+</div>
+<!-- Bar Group: Feb -->
+<div class="flex flex-col items-center gap-3 z-10 w-full group">
+<div class="flex items-end gap-1">
+<div class="w-4 bg-primary-container rounded-t-sm h-20 group-hover:bg-primary-container/80 transition-all"></div>
+<div class="w-4 bg-primary rounded-t-sm h-24 group-hover:scale-y-105 origin-bottom transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant/60 uppercase">Feb</span>
+</div>
+<!-- Bar Group: Mar (Active/Current) -->
+<div class="flex flex-col items-center gap-3 z-10 w-full group">
+<div class="flex items-end gap-1">
+<div class="w-4 bg-primary-container rounded-t-sm h-28 group-hover:bg-primary-container/80 transition-all"></div>
+<div class="w-4 bg-indigo-700 rounded-t-sm h-56 shadow-lg shadow-primary/20 group-hover:scale-y-105 origin-bottom transition-all"></div>
+</div>
+<span class="text-[10px] font-bold text-primary uppercase underline underline-offset-4">Mar</span>
+</div>
+</div>
+<div class="mt-10 pt-6 border-t border-outline-variant/5 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="text-center">
+<p class="text-[10px] font-bold text-on-surface-variant/40 uppercase mb-1">Standard Dev</p>
+<p class="text-sm font-semibold text-on-surface">0.8d</p>
+</div>
+<div class="w-[1px] h-8 bg-outline-variant/20"></div>
+<div class="text-center">
+<p class="text-[10px] font-bold text-on-surface-variant/40 uppercase mb-1">P90 Goal</p>
+<p class="text-sm font-semibold text-on-surface">4.5d</p>
+</div>
+</div>
+<button class="text-xs font-semibold text-primary hover:underline underline-offset-4">View Full Breakdown</button>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button - Contextual for Add Feature in Project -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-br from-primary to-primary-dim text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-2xl" data-icon="add" style="font-variation-settings: 'wght' 600;">add</span>
+</button>
+</body></html>

@@ -1,0 +1,85 @@
+window "Dashboard":
+  header:
+    row justify=between:
+      row:
+        icon name="tech" accent=research
+        text "The Engineering Editorial" bold
+      row:
+        input placeholder="Search projects..." type=search
+        button "" icon="warning"
+        button "" icon="gear"
+        avatar "U"
+    row justify=between:
+      text "All Projects" bold size=large
+      row:
+        segmented:
+          segment "Dashboard" selected
+          segment "Team"
+          segment "Insights"
+        button "New Project" primary icon="plus"
+
+  row:
+    col 240:
+      panel:
+        text "Engineering Org" bold
+        text "Precision Curator" muted size=small
+        divider
+        text "All Projects" bold
+        text "Connectors" muted
+        divider
+        text "Projects" muted size=small
+        text "Project Alpha" muted
+        text "Project Beta" muted
+        text "Project Gamma" muted
+        button "New Project" primary icon="plus"
+        divider
+        text "Settings" muted
+        text "Support" muted
+
+    col:
+      panel:
+        row justify=between:
+          text "Portfolio Overview" muted size=small
+          button "Filter"
+
+        row:
+          slot "Project Alpha" accent=success:
+            text "Active" accent=success bold size=small
+            text "Next-gen API Infrastructure" muted size=small
+            stats:
+              stat "Cycle Time" "3.2 days"
+              stat "QA Bounce" "12%"
+
+          slot "Project Beta" accent=warning:
+            text "Reviewing" accent=warning bold size=small
+            text "Mobile Client Revamp" muted size=small
+            stats:
+              stat "Cycle Time" "5.8 days"
+              stat "QA Bounce" "24%" accent=warning
+
+          slot "Project Gamma" accent=success:
+            text "Active" accent=success bold size=small
+            text "Data Pipeline V3" muted size=small
+            stats:
+              stat "Cycle Time" "2.1 days"
+              stat "QA Bounce" "4%"
+
+        row:
+          slot "Project Delta" accent=success:
+            text "Active" accent=success bold size=small
+            text "Analytics Engine Upgrade" muted size=small
+            stats:
+              stat "Cycle Time" "4.4 days"
+              stat "QA Bounce" "18%" accent=warning
+
+          slot "Add project":
+            text "Initialize new engineering workflow" muted size=small
+            button "" icon="plus"
+
+      panel:
+        row:
+          icon name="research" accent=research
+          col:
+            text "Fleet Velocity Insight" bold
+            text "Average cycle time across all projects has decreased by 14.2% in the last sprint. The most significant improvement was seen in Project Gamma." muted
+        button "View Report"

@@ -1,0 +1,65 @@
+%% ============================================================
+%%  NEW SCHEMA — `facts` namespace (the long metric store / harness core)
+%%  Long-on-metric, fixed-on-grain: closed dimension vocabulary as nullable FKs.
+%%  aggregate + analytical tiers coexist in ONE table (tier column).
+%%  Upsert idempotently via grain_key (the non-null conflict target).
+%%  Registry lives in CODE (defineMetric); this schema is what it writes to.
+%% ============================================================
+erDiagram
+
+    metric_fact {
+        bigint id PK
+        string product_id FK "TENANCY — NOT NULL, always present"
+        string metric_name "registry key (validated in code)"
+        int metric_version
+        string tier "aggregate | analytical"
+        string grain "label e.g. contributor_cluster_period"
+        string repo_id FK "DIM — nullable (null reserved for project-level rollups)"
+        string contributor_id FK "DIM — nullable"
+        string cluster_id FK "DIM — nullable"
+        string pr_id FK "DIM — nullable"
+        string work_item_id FK "DIM — nullable"
+        date period_start "DIM — nullable"
+        date period_end "DIM — nullable"
+        float value_num "primary value channel"
+        json value_json "escape hatch for structured facts"
+        string value_type "num | json — read-time discriminator"
+        string grain_key "CANONICAL non-null key — conflict/upsert target"
+        string run_id FK "provenance -> metric_run"
+        datetime computed_at
+    }
+
+    metric_run {
+        bigint id PK
+        string product_id FK
+        string stage "aggregate stage of the pipeline"
+        string status "running | completed | failed"
+        int rows_written
+        text error
+        datetime started_at
+        datetime finished_at
+    }
+
+    %% ── EXTERNAL (tenancy anchor + closed grain vocabulary) ──
+    %%    products/repositories live in `config`; the rest in `core`.
+    products     { string id PK "config" }
+    repositories { string id PK "config" }
+    contributors { string id PK "core" }
+    code_clusters { string id PK "core" }
+    github_prs   { string id PK "core" }
+    work_items   { string id PK "core" }
+
+    %% ── RELATIONSHIPS ──
+    products     ||--o{ metric_fact : "tenancy (anchor)"
+    repositories ||--o{ metric_fact : "grain: repo"
+    contributors ||--o{ metric_fact : "grain: contributor"
+    code_clusters ||--o{ metric_fact : "grain: cluster"
+    github_prs   ||--o{ metric_fact : "grain: pr"
+    work_items   ||--o{ metric_fact : "grain: work_item"
+
+    metric_run   ||--o{ metric_fact : "wrote (provenance)"
+    products     ||--o{ metric_run  : "scopes"
+
+    %% UNIQUE(product_id, metric_name, metric_version, grain_key)
+    %% grain_key encodes ONLY the populated dimensions, e.g.
+    %%   "repo:9|contributor:42|cluster:7|period:2026-W05"

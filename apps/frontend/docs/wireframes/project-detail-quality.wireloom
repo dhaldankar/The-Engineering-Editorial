@@ -1,0 +1,128 @@
+window "Project Beta — Quality":
+  header:
+    row justify=between:
+      row:
+        icon name="tech" accent=research
+        text "The Engineering Editorial" bold
+      row:
+        input placeholder="Search projects..." type=search
+        button "" icon="warning"
+        button "" icon="gear"
+        avatar "U"
+    row justify=between:
+      col:
+        text "← All Projects" muted size=small
+        text "Project Beta" bold size=large
+      row:
+        segmented:
+          segment "Pulse"
+          segment "Flow"
+          segment "Quality" selected
+        status "Synced" kind=success
+        text "Last updated 4m ago" muted size=small
+        button "Sync" primary icon="check"
+
+  row:
+    col 240:
+      panel:
+        text "Engineering Org" bold
+        text "Precision Curator" muted size=small
+        divider
+        text "All Projects" muted
+        text "Connectors" muted
+        divider
+        text "Projects" muted size=small
+        text "Project Alpha" muted
+        text "Project Beta" bold
+        text "Project Gamma" muted
+        button "New Project" primary icon="plus"
+        divider
+        text "Settings" muted
+        text "Support" muted
+
+    col:
+      row:
+        slot "Total Bounces":
+          text "24" bold size=large accent=danger
+          text "▲ 12%" accent=danger size=small
+        slot "Functional Gaps":
+          text "12" bold size=large
+          progress value=50 max=100
+        slot "Implementation Gaps":
+          text "8" bold size=large
+          progress value=33 max=100
+        slot "Avg Fix Time":
+          text "3.2h" bold size=large accent=research
+          text "Efficient Range" muted size=small
+
+      section "QA Cycles Timeline":
+        text "Bounce frequency tracking across release sprints" muted size=small
+        chart kind=line label="Bounces — Sprint 24 to Current" accent=research
+
+      section "Defect Cluster Analysis":
+        row:
+          col 120:
+            text "Ticket ID" bold size=small muted
+          col 160:
+            text "Gap Type" bold size=small muted
+          col 160:
+            text "Clusters" bold size=small muted
+          col 100:
+            text "Fix Time" bold size=small muted
+          col 100:
+            text "Jaccard" bold size=small muted
+
+        divider
+
+        row:
+          col 120:
+            text "ENG-8402"
+          col 160:
+            text "Functional"
+          col 160:
+            text "API, AUTH" muted size=small
+          col 100:
+            text "4.5h" muted size=small
+          col 100:
+            text "0.85" bold
+
+        row:
+          col 120:
+            text "ENG-8511"
+          col 160:
+            text "Implementation"
+          col 160:
+            text "UI" muted size=small
+          col 100:
+            text "1.2h" muted size=small
+          col 100:
+            text "0.35" muted
+
+        row:
+          col 120:
+            text "ENG-8499"
+          col 160:
+            text "Functional"
+          col 160:
+            text "DB, LOG" muted size=small
+          col 100:
+            text "2.8h" muted size=small
+          col 100:
+            text "0.78" bold
+
+        row:
+          col 120:
+            text "ENG-8388"
+          col 160:
+            text "Implementation"
+          col 160:
+            text "SVC" muted size=small
+          col 100:
+            text "5.1h" muted size=small
+          col 100:
+            text "0.90" bold
+
+      panel:
+        icon name="research"
+        text "Insight: Regression Hotspot" bold
+        text "Functional gaps are trending 15% higher in the AUTH cluster over the last 3 QA cycles. Recommend a deep-dive audit of session persistence logic before the Sprint 28 release." muted size=small

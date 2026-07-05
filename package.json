@@ -1,0 +1,19 @@
+{
+  "name": "Engineering-Editorial",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "synth": "turbo run synth"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "turbo": "^2.10.3"
+  },
+  "packageManager": "pnpm@9.5.0"
+}

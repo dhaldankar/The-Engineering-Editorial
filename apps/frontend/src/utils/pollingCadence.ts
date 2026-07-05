@@ -1,0 +1,2 @@
+export const ACTIVE_JOB_INTERVAL_MS = 5000;
+export const AMBIENT_INTERVAL_MS = 60000;

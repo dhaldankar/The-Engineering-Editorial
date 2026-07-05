@@ -1,0 +1,81 @@
+window "Project Beta — Pulse":
+  header:
+    row justify=between:
+      row:
+        icon name="tech" accent=research
+        text "The Engineering Editorial" bold
+      row:
+        input placeholder="Search projects..." type=search
+        button "" icon="warning"
+        button "" icon="gear"
+        avatar "U"
+    row justify=between:
+      col:
+        text "← All Projects" muted size=small
+        text "Project Beta" bold size=large
+      row:
+        segmented:
+          segment "Pulse" selected
+          segment "Flow"
+          segment "Quality"
+        status "Synced" kind=success
+        text "Last updated 4m ago" muted size=small
+        button "Sync" primary icon="check"
+
+  row:
+    col 240:
+      panel:
+        text "Engineering Org" bold
+        text "Precision Curator" muted size=small
+        divider
+        text "All Projects" muted
+        text "Connectors" muted
+        divider
+        text "Projects" muted size=small
+        text "Project Alpha" muted
+        text "Project Beta" bold
+        text "Project Gamma" muted
+        button "New Project" primary icon="plus"
+        divider
+        text "Settings" muted
+        text "Support" muted
+
+    col:
+      row:
+        slot "Cycle Time":
+          text "3.4d" bold size=large accent=danger
+          text "▲ 12%" accent=danger size=small
+          text "Average per feature" muted size=small
+        slot "QA Bounce":
+          text "18.2%" bold size=large
+          text "▼ 4%" accent=research size=small
+          text "Rejection frequency" muted size=small
+        slot "PRs Merged":
+          text "142" bold size=large
+          text "▲ 24%" accent=research size=small
+          text "Last 30 days" muted size=small
+        slot "Rework Rate":
+          text "8.4%" bold size=large
+          text "▼ 2%" accent=research size=small
+          text "Code churn metric" muted size=small
+
+      row:
+        col 320:
+          section "Signal Feed" badge="Live Updates":
+            list:
+              item "Deployment Blocked — 2m ago" chevron
+              item "PR #402 Merged — 45m ago"
+              item "QA Spike Detected — 2h ago"
+
+        col:
+          section "Cycle Time Trends":
+            text "Actual vs Targeted, last 6 months" muted size=small
+            chart kind=bar label="Cycle Time Trends (Oct–Mar)" accent=research
+            row justify=between:
+              kv "Standard Dev" "0.8d"
+              kv "P90 Goal" "4.5d"
+              button "View Full Breakdown"
+
+      # Floating action button (bottom-right, contextual "add feature")
+      row justify=end:
+        button "" icon="plus" primary

@@ -1,0 +1,73 @@
+%% ============================================================
+%%  NEW SCHEMA — `report` namespace (jobs, drift signals)
+%%  Gen-1 report_snapshots/kpi_snapshots/report_cluster_* are GONE.
+%%  Signals = report-scoped DRIFT detectors, computed at generation time,
+%%  reading facts.metric_fact by metric_name (period vs previous period).
+%%  Dashboard reads facts LIVE; only the fired SIGNAL judgment is persisted.
+%% ============================================================
+erDiagram
+
+    async_reports {
+        string id PK
+        string product_id FK "TENANCY"
+        string repo_id FK "nullable — repo now, project-level later (lift seam)"
+        string report_type "e.g. weekly_editorial (composition defined in code)"
+        date period_start
+        date period_end
+        string status "pending | processing | completed | failed"
+        string stage "poll surface: computing | evaluating_signals | assembling"
+        string worker_version "harness version — regen safety"
+        int retries
+        text error_message
+        string requested_by FK "nullable -> config.accounts"
+        datetime created_at
+        datetime updated_at
+        datetime completed_at
+    }
+
+    signal_config {
+        string id PK
+        string product_id FK "TENANCY"
+        string repo_id FK "nullable — product default / repo override"
+        string signal_name
+        int version
+        json spec "the LOOKUPS: metric_names read, window, rule, severity, narrative"
+        bool active
+        datetime created_at
+        datetime updated_at
+    }
+
+    report_signal {
+        string id PK
+        string report_id FK
+        string signal_config_id FK "which rule fired (provenance)"
+        string signal_name "denormalized"
+        string severity "critical | warning | info"
+        float value_num "drift magnitude (e.g. delta %)"
+        text narrative
+        json evidence "metric_fact ids + values AT COMPUTE TIME — frozen judgment"
+        datetime computed_at
+    }
+
+    %% ── EXTERNAL (referenced) ──
+    products     { string id PK "config" }
+    repositories { string id PK "config" }
+    accounts     { string id PK "config" }
+    metric_fact  { bigint id PK "facts" }
+
+    %% ── RELATIONSHIPS ──
+    products     ||--o{ async_reports : "tenancy"
+    repositories ||--o{ async_reports : "scopes (nullable)"
+    accounts     ||--o{ async_reports : "requested by"
+
+    products     ||--o{ signal_config : "tenancy"
+    repositories ||--o{ signal_config : "override (nullable)"
+
+    async_reports  ||--o{ report_signal : "contains"
+    signal_config  ||--o{ report_signal : "fired as"
+
+    %% SOFT read (by metric_name string, not FK); ids captured in evidence
+    signal_config }o..o{ metric_fact : "reads (period vs prev)"
+
+    %% UNIQUE(product_id, repo_id, report_type, period_start, period_end)
+    %%   idempotent regen: re-run replaces its report_signal rows

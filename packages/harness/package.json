@@ -1,0 +1,21 @@
+{
+  "name": "@engineering-editorial/harness",
+  "version": "1.0.0",
+  "description": "Pure TypeScript execution engine for analytical metrics",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@engineering-editorial/core-types": "workspace:*",
+    "@engineering-editorial/db-client": "workspace:*",
+    "drizzle-orm": "^0.30.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
+  }
+}

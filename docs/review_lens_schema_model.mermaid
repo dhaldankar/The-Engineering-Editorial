@@ -1,0 +1,112 @@
+%% ============================================================
+%%  NEW SCHEMA — `review_lens` namespace (blindspot mining)
+%%  A staged pipeline that mines review history into reusable rules:
+%%    Stage 0 taxonomy -> A classify -> B aggregate patterns -> C synthesize rules
+%%  These are TRANSFORM/AGGREGATE nodes (not metrics) — categorical/text shape,
+%%  which is why they live here rather than in facts.metric_fact.
+%%  Versioned: one ACTIVE taxonomy per repo; classifications & patterns are
+%%  scoped to a taxonomy version, so re-discovery is non-destructive.
+%% ============================================================
+erDiagram
+
+    %% ── STAGE 0: taxonomy (LLM-induced issue categories, per repo) ──
+
+    classification_taxonomy {
+        string id PK
+        string product_id FK "TENANCY"
+        string repo_id FK "taxonomy is per-repository"
+        int version
+        string status "active | superseded (one active per repo)"
+        string model_id "Bedrock model that induced it (provenance)"
+        datetime created_at
+        datetime superseded_at "nullable"
+    }
+
+    taxonomy_category {
+        string id PK
+        string taxonomy_id FK
+        string category_key "stable slug — UNIQUE per taxonomy"
+        string label
+        text description
+        datetime created_at
+    }
+
+    %% ── STAGE A: per-comment classification against active taxonomy ──
+
+    comment_classification {
+        string id PK
+        string product_id FK "TENANCY"
+        string repo_id FK
+        string review_comment_id FK "-> core.review_comments"
+        string taxonomy_id FK "version classified against"
+        string category_id FK "-> taxonomy_category (assigned)"
+        bool is_actionable
+        string severity "low | medium | high"
+        bool was_addressed
+        float confidence "LLM confidence — nullable"
+        datetime classified_at
+    }
+
+    %% ── STAGE B: aggregated (cluster x category) recurrence ──
+
+    blindspot_pattern {
+        string id PK
+        string product_id FK "TENANCY"
+        string repo_id FK
+        string cluster_id FK "-> core.code_clusters"
+        string category_id FK "-> taxonomy_category"
+        string taxonomy_id FK "version scope"
+        int occurrence_count
+        int actionable_count
+        int unaddressed_count
+        json exemplar_comment_ids "representative comments"
+        datetime computed_at
+    }
+
+    %% ── STAGE C: synthesized atomic review rules (the durable artifact) ──
+
+    blindspot_rule {
+        string id PK
+        string product_id FK "TENANCY"
+        string repo_id FK
+        string cluster_id FK "nullable — cluster-specific or general"
+        string category_id FK "nullable"
+        string pattern_id FK "synthesized from (provenance) — nullable"
+        string title
+        text body
+        text trigger_pattern
+        text detection_cue
+        text fix_prescription
+        float confidence_score
+        string status "active | dormant | archived"
+        datetime created_at
+        datetime updated_at
+    }
+
+    %% ── EXTERNAL (referenced) ──
+    products        { string id PK "config" }
+    repositories    { string id PK "config" }
+    review_comments { string id PK "core" }
+    code_clusters   { string id PK "core" }
+
+    %% ── RELATIONSHIPS ──
+    products     ||--o{ classification_taxonomy : "tenancy"
+    repositories ||--o{ classification_taxonomy : "scopes"
+
+    classification_taxonomy ||--o{ taxonomy_category : "defines"
+    classification_taxonomy ||--o{ comment_classification : "version"
+    classification_taxonomy ||--o{ blindspot_pattern : "version"
+
+    taxonomy_category ||--o{ comment_classification : "assigned"
+    taxonomy_category ||--o{ blindspot_pattern : "grouped by"
+    taxonomy_category ||--o{ blindspot_rule : "derived from (nullable)"
+
+    review_comments ||--o| comment_classification : "classified (1 per version)"
+    code_clusters   ||--o{ blindspot_pattern : "recurs in"
+    code_clusters   ||--o{ blindspot_rule : "guards"
+
+    blindspot_pattern ||--o{ blindspot_rule : "synthesized into"
+
+    %% UNIQUE(review_comment_id, taxonomy_id)  — idempotent classification
+    %% UNIQUE(repo_id, cluster_id, category_id, taxonomy_id) — idempotent pattern
+    %% Active rules are packaged on demand into a downloadable Kiro skill.

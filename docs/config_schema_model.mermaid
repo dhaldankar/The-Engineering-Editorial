@@ -1,0 +1,87 @@
+%% ============================================================
+%%  NEW SCHEMA — `config` namespace (tenancy, auth seam, connectors, mappings)
+%%  Renames: organizations->products, projects->repositories
+%%  NEW vs gen-1: accounts (Cognito principals) + account->contributor seam
+%%  Connectors: repo-level overrides product-level (resolution: repo -> product)
+%% ============================================================
+erDiagram
+
+    %% ── TENANCY ROOT ──
+
+    products {
+        string id PK
+        string name UNIQUE
+        datetime created_at
+        datetime updated_at
+    }
+
+    repositories {
+        string id PK
+        string product_id FK
+        string key "slug — UNIQUE per product"
+        string display_name
+        string description
+        string status "active | paused | archived"
+        string github_owner
+        string github_repo
+        string jira_project_key
+        string ticket_key_pattern "regex: ticket-key extraction"
+        datetime created_at
+        datetime updated_at
+    }
+
+    %% ── AUTH (the OTHER 'user' — app logins, NOT analyzed developers) ──
+
+    accounts {
+        string id PK
+        string cognito_sub UNIQUE
+        string product_id FK "tenancy"
+        string email
+        string contributor_id FK "THE SEAM -> core.contributors — nullable, MVP-reserved"
+        string role "admin | member (or defer post-MVP)"
+        datetime created_at
+        datetime updated_at
+    }
+
+    %% ── CONNECTORS (auth only — repo identity lives on `repositories`) ──
+
+    data_connectors {
+        string id PK
+        string product_id FK "nullable — product-level DEFAULT"
+        string repo_id FK "nullable, UNIQUE — repo-level OVERRIDE"
+        text github_token "encrypted (KMS) — see storage fork"
+        int github_token_version "versioned rotation"
+        string github_base_url "self-hosted — KEEP/DROP open"
+        text atlassian_token "encrypted (KMS)"
+        int atlassian_token_version
+        string atlassian_base_url "self-hosted — KEEP/DROP open"
+        string atlassian_email "Jira basic-auth identity"
+        datetime created_at
+        datetime updated_at
+    }
+
+    %% ── WORKFLOW MAPPING (normalized, NOT jsonb — hot analytical path) ──
+
+    workflow_status_mappings {
+        string id PK
+        string repo_id FK
+        string jira_status "raw project string e.g. 'UAT', 'In Testing'"
+        string canonical_phase "backlog|ready|in_dev|str|qa|done"
+        datetime created_at
+        datetime updated_at
+    }
+
+    %% ── EXTERNAL (lives in `core` — shown only for seam legibility) ──
+    contributors {
+        string id PK "core.contributors — NOT part of config"
+    }
+
+    %% ── RELATIONSHIPS ──
+
+    products ||--o{ repositories : "owns"
+    products ||--o{ accounts : "has member"
+    products ||--o{ data_connectors : "default connector"
+    repositories ||--o| data_connectors : "override connector (UNIQUE)"
+    repositories ||--o{ workflow_status_mappings : "maps statuses for"
+
+    accounts }o--o| contributors : "linked to (seam, nullable)"

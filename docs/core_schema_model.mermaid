@@ -1,0 +1,171 @@
+%% ============================================================
+%%  NEW SCHEMA — `core` namespace (normalized domain entities)
+%%  Superset-of-record: ARCHITECTURE.md (NOT CURRENT_SCHEMA_MODEL.md)
+%%  Renames: users->contributors, user_identities->contributor_identities
+%%  Raw layer moved to S3 Bronze -> links become source-ref strings, not FKs
+%% ============================================================
+erDiagram
+
+    %% ── IDENTITY (the analyzed population — developers, NOT app logins) ──
+
+    contributors {
+        string id PK
+        string email UNIQUE "normalized; nullable only via merge"
+        string display_name
+        string avatar_url
+        datetime created_at
+        datetime updated_at
+    }
+
+    contributor_identities {
+        string id PK
+        string contributor_id FK
+        string source "github | jira"
+        string external_id "login / accountId"
+        string external_handle
+        datetime created_at
+    }
+
+    contributor_identity_unresolved {
+        string id PK
+        string repo_id FK "scoping (config.repositories)"
+        string source "github | jira"
+        string external_id
+        string external_handle
+        string reason "no_public_email | api_forbidden | deleted_user | ambiguous"
+        datetime created_at
+    }
+
+    %% ── WORK (Jira-derived canonical tickets & dev cycles) ──
+
+    work_items {
+        string id PK
+        string repo_id FK "-> config.repositories"
+        string source_issue_id "soft ref to S3 Bronze (NOT a FK)"
+        string issue_key
+        string issue_type "PROMOTED — future metric dimension"
+        string priority "PROMOTED — future metric dimension"
+        string status "current raw status string"
+        string assignee_contributor_id FK "nullable"
+        string reporter_contributor_id FK "nullable"
+        datetime created_at
+        datetime updated_at
+        datetime resolved_at
+    }
+
+    work_iterations {
+        string id PK
+        string work_item_id FK
+        int iteration_number
+        datetime started_at
+        datetime ended_at
+        bool started_by_status_transition "QA-bounce reopens a cycle"
+        datetime created_at
+    }
+
+    %% ── GITHUB (execution side) ──
+
+    github_prs {
+        string id PK
+        string repo_id FK "-> config.repositories"
+        string work_item_id FK "nullable — PR may not link a ticket"
+        string work_iteration_id FK "nullable"
+        string author_contributor_id FK "nullable"
+        int pr_number
+        string state
+        string title
+        string head_branch
+        string base_branch
+        string source_ref "pointer to S3 Bronze payload"
+        datetime created_at
+        datetime updated_at
+        datetime closed_at
+        datetime merged_at
+    }
+
+    reviews {
+        string id PK
+        string pr_id FK
+        string reviewer_contributor_id FK "nullable"
+        string state
+        text body
+        datetime submitted_at
+        string tone "ENRICHED (transform node) — nullable"
+        string feedback_aspect "ENRICHED — nullable"
+        datetime enriched_at "nullable"
+    }
+
+    review_comments {
+        string id PK
+        string pr_id FK
+        string author_contributor_id FK "nullable"
+        string path "LOAD-BEARING: comment -> file -> cluster"
+        int position
+        text body
+        datetime created_at
+        string tone "ENRICHED — nullable"
+        string change_type "ENRICHED — nullable"
+        datetime enriched_at "nullable"
+    }
+
+    pr_files {
+        string id PK
+        string pr_id FK
+        string filename
+        int additions
+        int deletions
+        int changes
+        string status "added | modified | removed"
+    }
+
+    %% ── CLUSTERS (logical code areas) ──
+
+    code_clusters {
+        string id PK
+        string repo_id FK "nullable"
+        string cluster_name
+        string file_pattern
+        string curation_status "auto|confirmed|renamed|manual|archived — MUST survive"
+        datetime created_at
+        datetime updated_at
+    }
+
+    cluster_assignments {
+        string id PK
+        string pr_file_id FK "UNIQUE — one file -> one cluster"
+        string cluster_id FK
+        datetime created_at
+    }
+
+    %% ── EXTERNAL (lives in `config` — shown only for FK legibility) ──
+    repositories {
+        string id PK "config.repositories — NOT part of core"
+    }
+
+    %% ── RELATIONSHIPS ──
+
+    contributors ||--o{ contributor_identities : "resolves to"
+    contributors ||--o{ work_items : "assignee"
+    contributors ||--o{ work_items : "reporter"
+    contributors ||--o{ github_prs : "author"
+    contributors ||--o{ reviews : "reviewer"
+    contributors ||--o{ review_comments : "author"
+
+    repositories ||--o{ work_items : "scopes"
+    repositories ||--o{ github_prs : "scopes"
+    repositories ||--o{ code_clusters : "scopes"
+    repositories ||--o{ contributor_identity_unresolved : "scopes"
+
+    work_items ||--o{ work_iterations : "has"
+    work_items ||--o{ github_prs : "implemented by"
+    work_iterations ||--o{ github_prs : "implemented by"
+
+    github_prs ||--o{ reviews : "has"
+    github_prs ||--o{ review_comments : "has"
+    github_prs ||--o{ pr_files : "has"
+
+    pr_files ||--o| cluster_assignments : "assigned via"
+    code_clusters ||--o{ cluster_assignments : "groups"
+
+    %% SOFT JOIN (no FK today): review_comments.path == pr_files.filename within same PR
+    review_comments }o..o| pr_files : "path≈filename (soft — consider hardening)"

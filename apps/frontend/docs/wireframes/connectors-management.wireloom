@@ -1,0 +1,76 @@
+window "Connectors":
+  header:
+    row justify=between:
+      row:
+        icon name="tech" accent=research
+        text "The Engineering Editorial" bold
+      row:
+        input placeholder="Search projects..." type=search
+        button "" icon="warning"
+        button "" icon="gear"
+        avatar "U"
+    text "Connectors" bold size=large
+
+  row:
+    col 240:
+      panel:
+        text "Engineering Org" bold
+        text "Precision Curator" muted size=small
+        divider
+        text "All Projects" muted
+        text "Connectors" bold
+        divider
+        text "Projects" muted size=small
+        text "Project Alpha" muted
+        text "Project Beta" muted
+        text "Project Gamma" muted
+        button "New Project" primary icon="plus"
+        divider
+        text "Settings" muted
+        text "Support" muted
+
+    col:
+      panel:
+        text "Architecture & Integrations" muted size=small
+        text "Manage your organization-wide data sources. Connect tools to unify your engineering metrics and gain holistic visibility into your development lifecycle." muted
+
+      row:
+        col:
+          section "Active Integrations" badge="2 Connected":
+            slot "GitHub App" state=active accent=success:
+              status "Connected" kind=success
+              text "Last synced 4m ago" muted size=small
+              row justify=end:
+                button "Manage"
+                button "" icon="gear"
+
+            slot "Jira Software" state=active accent=success:
+              status "Connected" kind=success
+              text "Cloud Instance: editorial-main" muted size=small
+              row justify=end:
+                button "Re-auth"
+                button "Manage"
+
+            stats:
+              stat "Total API calls" "428.1k" icon="computation"
+              stat "Data Latency" "1.2s" icon="tech"
+
+        col 320:
+          section "Coming Soon":
+            slot "Slack" state=locked:
+              text "Notifications & Alerts" muted size=small
+              button "Request"
+
+            slot "PagerDuty" state=locked:
+              text "Incident Management" muted size=small
+              text "Q4 2024" muted size=small
+
+            panel:
+              text "Missing a tool?" bold
+              text "Tell us what you'd like to see integrated next in your engineering editorial dashboard." muted size=small
+              button "Suggest Integration"
+
+          section "Enterprise Security":
+            icon name="authority"
+            text "All connectors utilize OAuth 2.0 or Scoped Access Tokens. No raw credentials are ever stored in our database." muted size=small
+            text "Security Documentation →" accent=research size=small

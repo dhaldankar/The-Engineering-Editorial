@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connectors Management | The Engineering Editorial</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#fff7f7",
+              "on-tertiary-fixed-variant": "#4b546d",
+              "surface-variant": "#d2e4ff",
+              "outline-variant": "#81b5f6",
+              "surface-bright": "#f8f9ff",
+              "secondary-fixed-dim": "#d6d3d8",
+              "on-primary-container": "#3f33d6",
+              "error-container": "#ff8b9a",
+              "surface": "#f8f9ff",
+              "inverse-primary": "#8582ff",
+              "tertiary-fixed": "#ced6f5",
+              "inverse-surface": "#000f21",
+              "on-tertiary-fixed": "#2f384f",
+              "on-background": "#00345e",
+              "on-primary-fixed": "#2a13c5",
+              "primary-container": "#e2dfff",
+              "error": "#9e3f4e",
+              "surface-dim": "#c4dcff",
+              "primary-fixed-dim": "#d2d0ff",
+              "on-tertiary": "#f9f8ff",
+              "on-surface": "#00345e",
+              "on-error-container": "#782232",
+              "surface-container-high": "#dce9ff",
+              "secondary-fixed": "#e5e1e6",
+              "on-secondary": "#fbf8fc",
+              "secondary-container": "#e5e1e6",
+              "on-surface-variant": "#26619d",
+              "tertiary-dim": "#4a536b",
+              "background": "#f8f9ff",
+              "surface-container": "#e5eeff",
+              "surface-tint": "#4d44e3",
+              "secondary-dim": "#545256",
+              "primary-fixed": "#e2dfff",
+              "on-secondary-fixed": "#403f43",
+              "on-secondary-fixed-variant": "#5c5b5f",
+              "surface-container-highest": "#d2e4ff",
+              "primary": "#4d44e3",
+              "tertiary-fixed-dim": "#c0c9e6",
+              "on-primary-fixed-variant": "#4a40e0",
+              "on-primary": "#faf6ff",
+              "primary-dim": "#4034d7",
+              "surface-container-low": "#eff4ff",
+              "tertiary-container": "#ced6f5",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-container": "#525155",
+              "inverse-on-surface": "#8e9eb7",
+              "error-dim": "#4f0116",
+              "tertiary": "#565f78",
+              "secondary": "#605e62",
+              "on-tertiary-container": "#424a63",
+              "outline": "#477dbb"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(248, 249, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl shadow-sm flex justify-between items-center h-16 px-6 max-w-full font-sans antialiased text-slate-900">
+<div class="flex items-center gap-4">
+<span class="text-lg font-bold tracking-tight text-indigo-600">The Engineering Editorial</span>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-slate-500 hover:text-indigo-500 transition-colors" href="#">Projects</a>
+<a class="text-indigo-600 font-semibold border-b-2 border-indigo-600 pb-1" href="#">Connectors</a>
+<a class="text-slate-500 hover:text-indigo-500 transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-slate-100 rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-slate-500">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant/20">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="Portrait of a male professional software engineer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ0dZ8-s6jjwSxla2qhO5Vlr4beOS8CGV-snoqM4KltxI3sU-PvAkdrF0jiJBBQLnhblzrpYfBqxPOKJty3b1-RK8auQMZZY7Bk25gmmjp_XFrAtrPfM7Se116mgzTLGzWyA_4SVP1Rn0dR6Z6Vk5LpTuHRNe-BlfjH0RVC-4hNIobze95ANRYGOd5v3F0QVerjBRA4ZOKsKinmc7kry4iilqj_YGUWQplPapehn1eUHTsXyJVrF2Sl5VFh8TZCcRUm1ggmVtt2pM"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-50 border-r-0 hidden md:flex flex-col gap-y-2 p-4 pt-20">
+<div class="px-4 mb-6">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm">hub</span>
+</div>
+<div class="flex flex-col">
+<span class="text-indigo-600 font-bold text-sm">Project Alpha</span>
+<span class="text-on-surface-variant text-[10px] uppercase tracking-wider font-semibold">Engineering Insight</span>
+</div>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 p-3 text-slate-500 hover:bg-slate-100 rounded-xl hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">timeline</span>
+<span class="font-medium text-sm">Flow</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 hover:bg-slate-100 rounded-xl hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-medium text-sm">Quality</span>
+</a>
+<a class="flex items-center gap-3 p-3 bg-white text-indigo-600 shadow-sm rounded-xl hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">hub</span>
+<span class="font-medium text-sm">Connectors</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-slate-500 hover:bg-slate-100 rounded-xl hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">tune</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4">
+<button class="w-full py-3 px-4 bg-gradient-to-br from-primary to-primary-dim text-on-primary rounded-xl font-semibold text-sm shadow-md active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Analysis
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 pb-12 px-6 lg:px-12">
+<div class="max-w-6xl mx-auto">
+<!-- Header Section -->
+<div class="mb-12">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-[0.6875rem] font-bold text-on-surface-variant tracking-[0.05em] uppercase">Architecture &amp; Integrations</span>
+</div>
+<h1 class="text-4xl font-bold text-on-surface tracking-tight mb-4">Connectors</h1>
+<p class="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+                    Manage your organization-wide data sources. Connect tools to unify your engineering metrics and gain holistic visibility into your development lifecycle.
+                </p>
+</div>
+<!-- Bento Grid Layout for Connectors -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Active Integrations Column -->
+<div class="lg:col-span-2 space-y-6">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-xl font-semibold text-on-surface">Active Integrations</h2>
+<span class="px-2 py-1 bg-surface-container-high rounded text-[10px] font-bold text-primary tracking-wider uppercase">2 Connected</span>
+</div>
+<!-- GitHub Card -->
+<div class="group bg-surface-container-lowest rounded-full p-6 shadow-[0_10px_30px_-10px_rgba(0,52,94,0.08)] hover:shadow-[0_15px_40px_-12px_rgba(0,52,94,0.12)] transition-all duration-300">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-5">
+<div class="w-14 h-14 rounded-xl bg-surface-container-low flex items-center justify-center text-on-surface group-hover:bg-primary/5 transition-colors">
+<img alt="GitHub Logo" class="w-8 h-8 opacity-90" data-alt="Official GitHub black and white logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJHtzjD94VRWyTcDY2PVwGShuKUfZFSwcaBAFmZ_1tK2zfrCvhkFLNL9FeC2XkNHzzm-hLZqr81EWeN1YkRjE6n4jiEcZxjg-pRuOJNgEIf594-u4wKkqvCzUNQSoEqn3k2gzIIgbnHt0ENxTKJklgmpgA_5ln4SOzF4wKy1OBkMMW8V_TlgSbjcRRAdV1dOFPMD_r-ECOL34m9Km4Jg-EEeaf7xrli_uGY02Avc1XdmUmp4KZP_OpWrzY4CNEfjgVucuoTVMNAQk"/>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-on-surface">GitHub App</h3>
+<div class="flex items-center gap-3 mt-1">
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 bg-green-50 rounded-full">
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+<span class="text-xs font-semibold text-green-700">Connected</span>
+</div>
+<span class="text-xs text-on-surface-variant/60 font-medium tracking-tight">Last synced 4m ago</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-5 py-2.5 bg-surface-container-highest text-on-surface font-semibold text-sm rounded-xl hover:bg-surface-container-high transition-colors">
+                                    Manage
+                                </button>
+<button class="p-2.5 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Jira Card -->
+<div class="group bg-surface-container-lowest rounded-full p-6 shadow-[0_10px_30px_-10px_rgba(0,52,94,0.08)] hover:shadow-[0_15px_40px_-12px_rgba(0,52,94,0.12)] transition-all duration-300">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-5">
+<div class="w-14 h-14 rounded-xl bg-surface-container-low flex items-center justify-center text-on-surface group-hover:bg-primary/5 transition-colors">
+<img alt="Jira Logo" class="w-8 h-8 opacity-90" data-alt="Atlassian Jira blue software icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdOadophBry114rf5YrkUaT1QoRWMA6CaDF6JTEl3896ZqJn__kFQO-P6tjs4PyYDmQ62F7yrm6-x8ClHgI05BUYC43l6FinTYGDCpD51BEEk7X3RQajzj0cLlYO3HK4ByU_iLYbcxO3fUJxJfgKBap6heAHcK-96DxbXsYLfFOS3UlFlx23Lmb3yixwvb9RK3NKwCaE5QsHdhEenV_MfXk9C8o0_YBA8fbFuVyBf5d6SmS3lzX048wl7zjF0ovzCudBuFZZxaFOI"/>
+</div>
+<div>
+<h3 class="text-lg font-semibold text-on-surface">Jira Software</h3>
+<div class="flex items-center gap-3 mt-1">
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 bg-green-50 rounded-full">
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+<span class="text-xs font-semibold text-green-700">Connected</span>
+</div>
+<span class="text-xs text-on-surface-variant/60 font-medium tracking-tight">Cloud Instance: editorial-main</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-5 py-2.5 text-on-surface font-semibold text-sm rounded-xl hover:bg-surface-container-low transition-colors">
+                                    Re-auth
+                                </button>
+<button class="px-5 py-2.5 bg-surface-container-highest text-on-surface font-semibold text-sm rounded-xl hover:bg-surface-container-high transition-colors">
+                                    Manage
+                                </button>
+</div>
+</div>
+</div>
+<!-- Usage Analytics Mini Card (Asymmetric detail) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+<div class="bg-surface-container-low rounded-full p-6 flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-3xl">api</span>
+<div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Total API calls</div>
+<div class="text-2xl font-bold text-on-surface">428.1k</div>
+</div>
+</div>
+<div class="bg-surface-container-high/50 rounded-full p-6 flex items-center gap-4 border border-outline-variant/10">
+<span class="material-symbols-outlined text-indigo-600 text-3xl">sync_saved_locally</span>
+<div>
+<div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Data Latency</div>
+<div class="text-2xl font-bold text-on-surface">1.2s</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Explore / Marketplace Column -->
+<div class="space-y-6">
+<h2 class="text-xl font-semibold text-on-surface mb-2">Coming Soon</h2>
+<div class="space-y-4">
+<!-- Slack Placeholder -->
+<div class="bg-surface-container-low/40 rounded-xl p-5 border border-dashed border-outline-variant/40 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center grayscale opacity-50">
+<span class="material-symbols-outlined text-2xl">chat_bubble</span>
+</div>
+<div>
+<div class="font-semibold text-on-surface-variant">Slack</div>
+<div class="text-xs text-on-surface-variant/60">Notifications &amp; Alerts</div>
+</div>
+</div>
+<button class="text-primary font-bold text-[10px] tracking-widest uppercase hover:underline">Request</button>
+</div>
+<!-- PagerDuty Placeholder -->
+<div class="bg-surface-container-low/40 rounded-xl p-5 border border-dashed border-outline-variant/40 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center grayscale opacity-50">
+<span class="material-symbols-outlined text-2xl">notifications_active</span>
+</div>
+<div>
+<div class="font-semibold text-on-surface-variant">PagerDuty</div>
+<div class="text-xs text-on-surface-variant/60">Incident Management</div>
+</div>
+</div>
+<span class="text-on-surface-variant/40 font-bold text-[10px] tracking-widest uppercase">Q4 2024</span>
+</div>
+<!-- Generic Request Card -->
+<div class="bg-primary/5 rounded-xl p-6 border border-primary/10 flex flex-col items-center text-center">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+<span class="material-symbols-outlined text-primary">add_link</span>
+</div>
+<h4 class="font-bold text-on-surface mb-1">Missing a tool?</h4>
+<p class="text-xs text-on-surface-variant mb-4">Tell us what you'd like to see integrated next in your engineering editorial dashboard.</p>
+<button class="w-full py-2.5 bg-white text-on-surface font-semibold text-xs rounded-lg shadow-sm border border-outline-variant/20 hover:bg-surface-container-lowest transition-colors">
+                                Suggest Integration
+                            </button>
+</div>
+</div>
+<!-- Security Highlight Section -->
+<div class="bg-on-surface rounded-xl p-6 text-on-tertiary">
+<span class="material-symbols-outlined text-primary-container mb-3" style="font-variation-settings: 'FILL' 1;">security</span>
+<h4 class="font-semibold text-sm mb-2">Enterprise Security</h4>
+<p class="text-xs text-on-tertiary/60 leading-relaxed mb-4">
+                            All connectors utilize OAuth 2.0 or Scoped Access Tokens. No raw credentials are ever stored in our database.
+                        </p>
+<a class="text-xs text-primary-container font-semibold hover:underline flex items-center gap-1" href="#">
+                            Security Documentation <span class="material-symbols-outlined text-[12px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav for Mobile -->
+<nav class="md:hidden fixed bottom-0 w-full bg-slate-50/80 backdrop-blur-xl px-6 py-3 flex justify-around items-center z-50">
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">timeline</span>
+<span class="text-[10px] font-medium">Flow</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-indigo-600">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">hub</span>
+<span class="text-[10px] font-bold">Connectors</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="text-[10px] font-medium">Quality</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-500">
+<span class="material-symbols-outlined">tune</span>
+<span class="text-[10px] font-medium">Settings</span>
+</button>
+</nav>
+</body></html>

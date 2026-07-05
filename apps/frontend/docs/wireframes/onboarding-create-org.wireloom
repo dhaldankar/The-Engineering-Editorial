@@ -1,0 +1,33 @@
+window "Create your organization":
+  header:
+    text "The Engineering Editorial" bold size=large
+
+  row justify=between:
+    col:
+      text "Step 1 of 3" bold size=small accent=research
+      progress value=1 max=3
+      text "Core Foundation" muted size=small
+    col:
+      text "Step 2" muted size=small
+      progress value=0 max=3
+      text "Integration" muted size=small
+
+  panel:
+    text "Create your organization" bold size=large
+    text "Set up a dedicated workspace for your engineering teams. You'll be able to invite members and connect repositories in the next steps." muted
+    input placeholder="e.g. Acme Engineering" type=text
+    text "This will be used as the primary identifier for your editorial dashboards." muted size=small italic
+    button "Create Organization" primary
+
+  row:
+    col:
+      icon name="authority"
+      text "Private by default" bold size=small
+      text "Your engineering data remains isolated and encrypted within your org." muted size=small
+    col:
+      icon name="policy"
+      text "Team Central" bold size=small
+      text "Invite developers and managers with granular role-based access." muted size=small
+
+  footer:
+    text "Powered by The Engineering Editorial" muted size=small
