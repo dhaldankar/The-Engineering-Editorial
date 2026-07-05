@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConnectorPage } from './ConnectorPage';
 import { useConnectorStatus } from '../../hooks/useConnectorStatus';
@@ -82,11 +81,12 @@ describe('ConnectorPage', () => {
 
     expect(await screen.findByText('Settings locked')).toBeInTheDocument();
 
-    // Simulate the connector transitioning to connected (e.g. the user
-    // completed the GitHub App install and returned to the tab), then
-    // clicking "Test" re-runs the connectivity check.
+    // Simulate the connector transitioning to connected: the user completed
+    // the GitHub App install in another tab and returned here. The card's
+    // window-focus handler invalidates the shared connector query, so every
+    // consumer of that cached value updates together (Requirement 3.7).
     githubConnected = true;
-    await userEvent.click(await screen.findByRole('button', { name: 'Install GitHub App' }).catch(() => screen.getByRole('button', { name: 'Test' })));
+    fireEvent(window, new Event('focus'));
 
     await waitFor(() => expect(screen.getByText('Settings')).toBeInTheDocument());
     expect(screen.queryByText('Settings locked')).not.toBeInTheDocument();

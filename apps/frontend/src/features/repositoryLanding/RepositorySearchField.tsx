@@ -32,14 +32,12 @@ export function RepositorySearchField({ onDebouncedChange, debounceMs = 300 }: R
       size="small"
       value={rawValue}
       onChange={(event) => setRawValue(event.target.value)}
-      slotProps={{
-        input: {
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon fontSize="small" />
-            </InputAdornment>
-          ),
-        },
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon fontSize="small" />
+          </InputAdornment>
+        ),
       }}
     />
   );

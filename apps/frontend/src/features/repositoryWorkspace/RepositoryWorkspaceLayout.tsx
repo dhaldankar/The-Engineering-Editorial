@@ -26,17 +26,17 @@ export function RepositoryWorkspaceLayout() {
   return (
     <Box>
       <RepositoryHeader repoId={repoId} />
-      <Tabs
-        value={activeTab}
-        onChange={(_event, value: string) => {
-          const tab = TABS.find((t) => t.value === value);
-          if (tab) {
-            navigate(tab.path(repoId));
-          }
-        }}
-      >
+      {/* Per-tab onClick (not Tabs onChange): onChange does not fire when the
+          already-selected tab is clicked, which would strand the user on a
+          nested route like the Report Viewer with no way back to the list. */}
+      <Tabs value={activeTab}>
         {TABS.map((tab) => (
-          <Tab key={tab.value} label={tab.label} value={tab.value} />
+          <Tab
+            key={tab.value}
+            label={tab.label}
+            value={tab.value}
+            onClick={() => navigate(tab.path(repoId))}
+          />
         ))}
       </Tabs>
       <Box mt={2}>
